@@ -17,7 +17,7 @@ class GameEngine:
         # Load sounds
         self.paddle_sound = pygame.mixer.Sound("C:/Users/yatin/Downloads/the-sound-of-hitting-the-ball.mp3")
         self.wall_sound = pygame.mixer.Sound("C:/Users/yatin/Downloads/throwing-a-ping-pong-ball-against-a-wall.mp3")
-        self.score_sound = pygame.mixer.Sound("C:/Users/yatin/Downloads/ping-pong-score")
+        self.score_sound = pygame.mixer.Sound("C:/Users/yatin/Downloads/ping-pong-score.mp3")
 
         # Ball with sounds
         self.ball = Ball(width // 2, height // 2, 7, 7, width, height,

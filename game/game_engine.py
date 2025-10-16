@@ -13,7 +13,15 @@ class GameEngine:
 
         self.player = Paddle(10, height // 2 - 50, self.paddle_width, self.paddle_height)
         self.ai = Paddle(width - 20, height // 2 - 50, self.paddle_width, self.paddle_height)
-        self.ball = Ball(width // 2, height // 2, 7, 7, width, height)
+
+        # Load sounds
+        self.paddle_sound = pygame.mixer.Sound("C:/Users/yatin/Downloads/the-sound-of-hitting-the-ball.mp3")
+        self.wall_sound = pygame.mixer.Sound("C:/Users/yatin/Downloads/throwing-a-ping-pong-ball-against-a-wall.mp3")
+        self.score_sound = pygame.mixer.Sound("C:/Users/yatin/Downloads/ping-pong-score")
+
+        # Ball with sounds
+        self.ball = Ball(width // 2, height // 2, 7, 7, width, height,
+                         self.paddle_sound, self.wall_sound, self.score_sound)
 
         self.player_score = 0
         self.ai_score = 0
@@ -31,10 +39,10 @@ class GameEngine:
 
     def update(self, screen):
         if not self.game_over:
-            # Move the ball and handle collisions
+            # Move ball and handle collisions
             self.ball.move(self.player, self.ai)
 
-            # Check for scoring
+            # Check scoring
             if self.ball.x <= 0:
                 self.ai_score += 1
                 self.ball.reset()
@@ -42,7 +50,7 @@ class GameEngine:
                 self.player_score += 1
                 self.ball.reset()
 
-            # AI paddle tracking with difficulty based on winning score
+            # AI difficulty based on winning score
             difficulty_map = {3: 0.9, 5: 1.0, 7: 1.2}
             difficulty = difficulty_map.get(self.winning_score, 1.0)
             self.ai.auto_track(self.ball, self.height, difficulty)
@@ -80,7 +88,7 @@ class GameEngine:
             text_rect = text_surface.get_rect(center=(self.width // 2, self.height // 2))
             screen.blit(text_surface, text_rect)
             pygame.display.flip()
-            pygame.time.delay(1000)  # brief pause before replay menu
+            pygame.time.delay(1000)  # brief pause
 
     def replay_menu(self, screen):
         screen.fill((0, 0, 0))
@@ -119,7 +127,7 @@ class GameEngine:
                         pygame.quit()
                         exit()
 
-        # Reset game state for replay
+        # Reset game state
         self.player_score = 0
         self.ai_score = 0
         self.ball.reset()
